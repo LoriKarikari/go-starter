@@ -1,0 +1,126 @@
+run:
+  timeout: 5m
+  modules-download-mode: readonly
+  go: "1.25"
+  tests: true
+  skip-dirs:
+    - vendor
+    - .git
+
+linters:
+  enable:
+    - gofumpt
+    - goimports
+    - govet
+    - errcheck
+    - staticcheck
+    - unused
+    - gosimple
+    - ineffassign
+    - typecheck
+    - gocritic
+    - revive
+    - gosec
+    - unconvert
+    - misspell
+    - unparam
+    - nolintlint
+    - bodyclose
+    - noctx
+    - rowserrcheck
+    - wastedassign
+
+linters-settings:
+  gofumpt:
+    extra-rules: true
+    
+  goimports:
+    local-prefixes: github.com/LoriKarikari/azguard
+  
+  govet:
+    enable-all: true
+    disable:
+      - shadow
+      - fieldalignment
+  
+  revive:
+    rules:
+      - name: blank-imports
+      - name: context-as-argument
+      - name: dot-imports
+      - name: error-return
+      - name: error-strings
+      - name: error-naming
+      - name: errorf
+      - name: var-naming
+      - name: receiver-naming
+  
+  errcheck:
+    check-type-assertions: true
+    check-blank: true
+    exclude-functions:
+      - (io.Closer).Close
+      - (*database/sql.Rows).Close
+  
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - performance
+    disabled-checks:
+      - hugeParam
+      - appendCombine
+  
+  gosec:
+    severity: medium
+    confidence: medium
+    excludes:
+      - G204
+      - G304
+  
+  misspell:
+    locale: US
+    ignore-words:
+      - azguard
+  
+  unparam:
+    check-exported: true
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+  
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - gosec
+        - errcheck
+    
+    - path: (^|/)vendor/
+      linters:
+        - all
+    
+    - path: \.pb\.go$
+      linters:
+        - all
+    
+    - path: mock_.*\.go$
+      linters:
+        - all
+    
+    - linters:
+        - revive
+      text: "exported: exported .* should have comment or be unexported"
+    
+    - linters:
+        - revive
+      text: "should have a package comment"
+    
+    - linters:
+        - errcheck
+      text: "Error return value of `viper.BindPFlag` is not checked"
+
+output:
+  formats:
+    - format: colored-line-number
+  sort-results: true
+  show-stats: true

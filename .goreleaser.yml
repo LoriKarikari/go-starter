@@ -1,0 +1,65 @@
+version: 2
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: azguard
+    main: ./cmd/azguard
+    binary: azguard
+    env:
+      - CGO_ENABLED=0
+    targets:
+      - linux_amd64
+      - linux_arm64
+      - darwin_amd64
+      - darwin_arm64
+      - windows_amd64
+      - windows_arm64
+    ldflags:
+      - -s -w
+      - -X github.com/LoriKarikari/azguard/internal/version.version={{.Version}}
+      - -X github.com/LoriKarikari/azguard/internal/version.commit={{.Commit}}
+
+archives:
+  - id: azguard
+    formats: [ 'tar.gz']
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- .Version }}_
+      {{- .Os }}_
+      {{- .Arch }}
+    files:
+      - README.md
+      - LICENSE
+  - id: azguard-windows
+    formats: [ 'zip']
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- .Version }}_
+      {{- .Os }}_
+      {{- .Arch }}
+    files:
+      - README.md
+      - LICENSE
+    ids:
+      - azguard
+
+checksum:
+  name_template: 'checksums.txt'
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^chore:'
+      - '^ci:'
+
+release:
+  github:
+    owner: LoriKarikari
+    name: azguard
+  prerelease: auto
