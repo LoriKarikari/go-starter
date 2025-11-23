@@ -5,9 +5,9 @@ before:
     - go mod tidy
 
 builds:
-  - id: azguard
-    main: ./cmd/azguard
-    binary: azguard
+  - id: go-starter
+    main: ./cmd/go-starter
+    binary: go-starter
     env:
       - CGO_ENABLED=0
     targets:
@@ -19,12 +19,12 @@ builds:
       - windows_arm64
     ldflags:
       - -s -w
-      - -X github.com/LoriKarikari/azguard/internal/version.version={{.Version}}
-      - -X github.com/LoriKarikari/azguard/internal/version.commit={{.Commit}}
+      - -X github.com/LoriKarikari/go-starter/internal/version.version={{.Version}}
+      - -X github.com/LoriKarikari/go-starter/internal/version.commit={{.Commit}}
 
 archives:
-  - id: azguard
-    formats: [ 'tar.gz']
+  - id: go-starter
+    formats: ["tar.gz"]
     name_template: >-
       {{ .ProjectName }}_
       {{- .Version }}_
@@ -33,8 +33,8 @@ archives:
     files:
       - README.md
       - LICENSE
-  - id: azguard-windows
-    formats: [ 'zip']
+  - id: go-starter-windows
+    formats: ["zip"]
     name_template: >-
       {{ .ProjectName }}_
       {{- .Version }}_
@@ -44,22 +44,22 @@ archives:
       - README.md
       - LICENSE
     ids:
-      - azguard
+      - go-starter
 
 checksum:
-  name_template: 'checksums.txt'
+  name_template: "checksums.txt"
 
 changelog:
   sort: asc
   filters:
     exclude:
-      - '^docs:'
-      - '^test:'
-      - '^chore:'
-      - '^ci:'
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - "^ci:"
 
 release:
   github:
     owner: LoriKarikari
-    name: azguard
+    name: go-starter
   prerelease: auto

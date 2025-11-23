@@ -1,3 +1,3 @@
-module github.com/LoriKarikari/azguard
+module github.com/LoriKarikari/go-starter
 
 go 1.25

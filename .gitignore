@@ -40,8 +40,8 @@ build/
 bin/
 
 # Local application state and cache
-.azguard/
-~/.azguard/
+.go-starter/
+~/.go-starter/
 
 # Temporary files
 *.tmp
